@@ -9,7 +9,7 @@ fi
 name=$1
 
 # Navigate to the directory
-cd /home/leetcode || exit
+# cd /home/leetcode || exit
 
 # Copy the template file
 cp leetcode_template.cpp "$name.cpp"
