@@ -38,15 +38,15 @@ public:
 
 /*the solution should start from below*/
 
+// #pragma GCC optimize("O3", "unroll-loops")
+// static const auto InitialOptimization = [](){
+//     ios_base::sync_with_stdio(false);
+//     cin.tie(0);
+//     cout.tie(0);
+//     return 0;
+// }();
+
 class Solution {
 public:
-    int maxScore(string s) {
-        const auto n = s.size();
-        auto zeros = 0uz, ones = 0uz;
-        auto ans = 0uz;
-        for (const auto &c : s) (c == '0' ? zeros : ones)++;
-        for (auto i = 0uz, cur_zero = 0uz; i < n - 1; i++)
-            ans = max(ans, 2 * (s[i] == '0' ? ++cur_zero : cur_zero) + ones - i - 1);
-        return ans;
-    }
+    int findTargetSumWays(vector<int> &nums, int target) {}
 };
