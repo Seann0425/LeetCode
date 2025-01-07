@@ -4,24 +4,18 @@ using namespace std;
 struct ListNode {
     int val;
     ListNode *next;
-    ListNode() : val(0), next(nullptr) {
-    }
-    ListNode(int x) : val(x), next(nullptr) {
-    }
-    ListNode(int x, ListNode *next) : val(x), next(next) {
-    }
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
 struct TreeNode {
     int val;
     TreeNode *left;
     TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {
-    }
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {
-    }
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {
-    }
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
 class Node {
@@ -44,21 +38,26 @@ public:
 
 /*the solution should start from below*/
 
+// #pragma GCC optimize("O3", "unroll-loops")
+// static const auto InitialOptimization = [](){
+//     ios_base::sync_with_stdio(false);
+//     cin.tie(0);
+//     cout.tie(0);
+//     return 0;
+// }();
+
 class Solution {
 public:
     vector<string> stringMatching(vector<string> &words) {
-        ios_base::sync_with_stdio(0);
-        cin.tie(0);
-        cout.tie(0);
-        vector<string> bruteForce;
-        for (string word1 : words) {
-            for (string word2 : words) {
-                if (word1 != word2 && word2.find(word1) != -1) {
-                    bruteForce.push_back(word1);
+        vector<string> brute_force;
+        for (const auto &word1 : words) {
+            for (const auto &word2 : words) {
+                if (word1 != word2 && word2.find(word1) != string::npos) {
+                    brute_force.push_back(word1);
                     break;
                 }
             }
         }
-        return bruteForce;
+        return brute_force;
     }
 };
