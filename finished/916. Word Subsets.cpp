@@ -47,32 +47,30 @@ public:
 // }();
 
 class Solution {
+    using freq_t = array<int, 26>;
+    bool is_subset(const freq_t &freq1, const freq_t &freq2) {
+        for (auto i = 0uz; i < 26; i++)
+            if (freq1[i] < freq2[i]) return false;
+        return true;
+    }
+    void to_freq(const string &word, freq_t &freq) {
+        for (const auto &ch : word) freq[ch - 'a']++;
+    }
 public:
-    int minimumDiameterAfterMerge(vector<vector<int>> &edges1, vector<vector<int>> &edges2) {
-        const auto n = edges1.size() + 1, m = edges2.size() + 1;
-        vector<vector<int>> adj_list1, adj_list2;
-        build_adj_list(edges1, n, adj_list1);
-        build_adj_list(edges2, m, adj_list2);
-
-        auto diameter1 = get_diameter(adj_list1, n);
-        auto diameter2 = get_diameter(adj_list2, m);
-        auto merged_diameter = (diameter1 + 1) / 2 + (diameter2 + 1) / 2 + 1;
-
-        return max({diameter1, diameter2, merged_diameter});
-    }
-private:
-    void build_adj_list(const vector<vector<int>> &edges, size_t n, vector<vector<int>> &adj_list) {
-        adj_list.resize(n);
-        for (const auto &edge : edges) {
-            adj_list[edge[0]].push_back(edge[1]);
-            adj_list[edge[1]].push_back(edge[0]);
+    vector<string> wordSubsets(vector<string> &words1, vector<string> &words2) {
+        vector<string> ans;
+        const auto n = words1.size(), m = words2.size();
+        freq_t max_freq{};
+        for (auto i = 0uz; i < m; i++) {
+            freq_t freq{};
+            to_freq(words2[i], freq);
+            for (auto j = 0uz; j < 26; j++) max_freq[j] = max(max_freq[j], freq[j]);
         }
+        for (auto i = 0uz; i < n; i++) {
+            freq_t freq1{};
+            to_freq(words1[i], freq1);
+            if (is_subset(freq1, max_freq)) ans.push_back(words1[i]);
+        }
+        return ans;
     }
-    int get_diameter(const vector<vector<int>> &adj_list, size_t n) {
-        auto [farthest_node, _] = bfs(adj_list, n, 0);
-        auto [_, diameter] = bfs(adj_list, n, farthest_node);
-        return diameter;
-    }
-
-    pair<size_t, int> bfs(const vector<vector<int>> &adj_list, size_t n, size_t src) {}
 };
