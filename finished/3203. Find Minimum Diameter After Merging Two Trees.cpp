@@ -74,5 +74,28 @@ private:
         return diameter;
     }
 
-    pair<size_t, int> bfs(const vector<vector<int>> &adj_list, size_t n, size_t src) {}
+    pair<size_t, int> bfs(const vector<vector<int>> &adj_list, size_t n, size_t src) {
+        queue<size_t> q;
+        vector<bool> visited(n);
+        q.push(src);
+        visited[src] = true;
+        auto max_dist = 0;
+        auto farthest = src;
+        while (!q.empty()) {
+            auto size = q.size();
+            for (auto i = 0uz; i < size; i++) {
+                auto u = q.front();
+                q.pop();
+                farthest = u;
+                for (const auto &v : adj_list[u]) {
+                    if (!visited[v]) {
+                        visited[v] = true;
+                        q.push(v);
+                    }
+                }
+            }
+            if (!q.empty()) max_dist++;
+        }
+        return {farthest, max_dist};
+    }
 };
