@@ -50,10 +50,25 @@ class Solution {
 public:
     vector<int> twoSum(vector<int> &nums, int target) {
         const auto n = nums.size();
-        for (auto i = 0uz; i < n; i++)
-            if (auto pair = lower_bound(nums.begin() + i + 1, nums.end(), target - nums[i]);
-                pair != nums.end() and *pair == target - nums[i])
-                return {static_cast<int>(i + 1), static_cast<int>(pair - nums.begin()) + 1};
+        auto i = 0uz, j = n - 1;
+        while (i < j) {
+            const auto sum = nums[i] + nums[j];
+            if (sum == target) return {static_cast<int>(i + 1), static_cast<int>(j + 1)};
+            if (sum < target) i++;
+            else j--;
+        }
         return {};
     }
 };
+
+// class Solution {
+// public:
+//     vector<int> twoSum(vector<int> &nums, int target) {
+//         const auto n = nums.size();
+//         for (auto i = 0uz; i < n; i++)
+//             if (auto pair = lower_bound(nums.begin() + i + 1, nums.end(), target - nums[i]);
+//                 pair != nums.end() and *pair == target - nums[i])
+//                 return {static_cast<int>(i + 1), static_cast<int>(pair - nums.begin()) + 1};
+//         return {};
+//     }
+// };
