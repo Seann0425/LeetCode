@@ -38,17 +38,15 @@ public:
 
 /*the solution should start from below*/
 
+// #pragma GCC optimize("O3", "unroll-loops")
+// static const auto InitialOptimization = [](){
+//     ios_base::sync_with_stdio(false);
+//     cin.tie(0);
+//     cout.tie(0);
+//     return 0;
+// }();
+
 class Solution {
 public:
-    int maxAscendingSum(vector<int> &nums) {
-        auto sum = nums[0], ans = nums[0];
-        const auto n = nums.size();
-        for (auto i = 1uz; i < n; i++) {
-            if (nums[i] > nums[i - 1]) {
-                sum += nums[i];
-                ans = max(ans, sum);
-            } else sum = nums[i];
-        }
-        return ans;
-    }
+    int minimumTeachings(int n, vector<vector<int>> &languages, vector<vector<int>> &friendships) {}
 };
