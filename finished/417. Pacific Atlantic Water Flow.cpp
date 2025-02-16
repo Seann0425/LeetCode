@@ -47,16 +47,36 @@ public:
 // }();
 
 class Solution {
-    enum Flow { NOT_VISITED = -1, NONE = 0, PACIFIC = 1, ATLANTIC = 2, BOTH = 3 };
-    vector<vector<int>> ans{};
-    void dfs(vector<vector<int>> &heights, vector<vector<Flow>> &flow, size_t i, size_t j) {}
+    size_t m, n;
+    constexpr static array<int, 5> dir{0, 1, 0, -1, 0};
+    void dfs(const vector<vector<int>> &heights, vector<vector<bool>> &visited, size_t i,
+             size_t j) {
+        visited[i][j] = true;
+        for (auto k = 0; k < 4; k++) {
+            auto x = i + dir[k], y = j + dir[k + 1];
+            if (x >= m or y >= n or visited[x][y] or heights[x][y] < heights[i][j]) continue;
+            dfs(heights, visited, x, y);
+        }
+    }
 public:
     vector<vector<int>> pacificAtlantic(vector<vector<int>> &heights) {
-        const auto m = heights.size(), n = heights[0].size();
-        vector<vector<Flow>> flow(m, vector<Flow>(n, NOT_VISITED));
-        for (auto i = 0uz; i < m; i++)
-            for (auto j = 0uz; j < n; j++)
-                if (flow[i][j] == NOT_VISITED) dfs(heights, flow, i, j);
+        m = heights.size(), n = heights[0].size();
+        vector pacific(m, vector<bool>(n, false)), atlantic(m, vector<bool>(n, false));
+
+        for (auto i = 0uz; i < m; i++) {
+            dfs(heights, pacific, i, 0);
+            dfs(heights, atlantic, i, n - 1);
+        }
+        for (auto i = 0uz; i < n; i++) {
+            dfs(heights, pacific, 0, i);
+            dfs(heights, atlantic, m - 1, i);
+        }
+
+        vector<vector<int>> ans;
+        for (auto i = 0; i < m; i++)
+            for (auto j = 0; j < n; j++)
+                if (pacific[i][j] and atlantic[i][j]) ans.push_back({i, j});
+
         return ans;
     }
 };
