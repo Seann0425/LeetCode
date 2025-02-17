@@ -53,13 +53,13 @@ public:
         for (const auto &i : nums) cnt[i]++;
         const auto n = nums.size();
         auto i = 0uz, j = 0uz;
-        for (; i < n; i += 2) {
+        for (i = n - 1 - !(n % 2); i < n; i -= 2) {
             while (!cnt[j]) j++;
             nums[i] = j;
             cnt[j]--;
         }
-        for (i = 1; i < n; i += 2) {
-            while (!cnt[j]) j++;
+        for (i = 1uz, j = cnt.size() - 1; i < n; i += 2) {
+            while (!cnt[j]) j--;
             nums[i] = j;
             cnt[j]--;
         }
