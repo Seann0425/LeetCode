@@ -38,26 +38,35 @@ public:
 
 /*the solution should start from below*/
 
-#pragma GCC optimize("O3", "unroll-loops")
-#include <ranges>
-#ifndef DEBUG
-#define DEBUG
-template <typename T>
-void debug(const vector<T> &v) {
-    if (v.empty()) {
-        cout << "[]"s << endl;
-        return;
-    }
-    cout << '[' << v.front();
-    for (const auto &x : v | views::drop(1)) cout << ',' << x;
-    cout << "]" << endl;
-}
-void debug(const string &s) { cout << '"' << s << '"' << endl; }
-#endif
+// #pragma GCC optimize("O3", "unroll-loops")
+// static const auto InitialOptimization = [](){
+//     ios_base::sync_with_stdio(false);
+//     cin.tie(0);
+//     cout.tie(0);
+//     return 0;
+// }();
 
-static const auto InitialOptimization = []() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
-    cout.tie(0);
-    return 0;
-}();
+#include <ranges>
+class Solution {
+    size_t n;
+    int k;
+    void backtrack(string &ans) {
+        if (ans.size() == n) return --k, void();
+        for (auto c : views::iota('a', 'd')) {
+            if (!ans.empty() and ans.back() == c) continue;
+            ans.push_back(c);
+            backtrack(ans);
+            if (!k) return;
+            ans.pop_back();
+        }
+    }
+public:
+    string getHappyString(int n, int k) {
+        this->n = n;
+        this->k = k;
+        string ans{};
+        ans.reserve(n);
+        backtrack(ans);
+        return ans;
+    }
+};
