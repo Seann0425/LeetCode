@@ -48,5 +48,23 @@ public:
 
 class Solution {
 public:
-    int maxFrequency(vector<int> &nums, int k) {}
+    int maxFrequency(vector<int> &nums, int k) {
+        sort(nums.begin(), nums.end());
+        const auto n = nums.size();
+        auto l = 0uz;
+        auto ans = 0;
+        auto sum = 0ll;
+        for (auto r = 0uz; r < n; ++r) {
+            auto target = nums[r];
+            sum += target;
+            while ((r - l + 1) * target - sum > k) {
+                // written as commented could geatly optimize the program
+                sum -= nums[l++];
+                // sum -= nums[l];
+                // ++l;
+            }
+            ans = max(ans, static_cast<int>(r - l + 1));
+        }
+        return ans;
+    }
 };
