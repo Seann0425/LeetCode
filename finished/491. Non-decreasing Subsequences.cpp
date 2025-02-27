@@ -61,3 +61,29 @@ static const auto InitialOptimization = []() {
     cout.tie(0);
     return 0;
 }();
+
+class Solution {
+    size_t n;
+    vector<vector<int>> ans{};
+    vector<int> path{};
+    auto dfs(const vector<int> &nums, size_t i) {
+        if (i == n) {
+            if (path.size() > 1) ans.push_back(path);
+            return;
+        }
+
+        if (path.empty() or nums[i] >= path.back()) {
+            path.push_back(nums[i]);
+            dfs(nums, i + 1);
+            path.pop_back();
+        }
+        // skip duplicates
+        if (path.empty() or nums[i] != path.back()) dfs(nums, i + 1);
+    }
+public:
+    vector<vector<int>> findSubsequences(vector<int> &nums) {
+        n = nums.size();
+        dfs(nums, 0uz);
+        return ans;
+    }
+};
