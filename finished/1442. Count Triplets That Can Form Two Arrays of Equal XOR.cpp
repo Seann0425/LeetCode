@@ -64,5 +64,17 @@ static const auto InitialOptimization = []() {
 
 class Solution {
 public:
-    int countTriplets(vector<int> &arr) {}
+    int countTriplets(vector<int> &arr) {
+        const auto n = arr.size();
+        auto ans = 0;
+        for (auto i = 0uz; i < n; ++i) {
+            auto prefix = 0;
+            for (auto j = i; j < n; ++j) {
+                prefix ^= arr[j];
+                // it's guaranteed that arr[i] > 0, so we don't need to check if j != i
+                if (!prefix) ans += static_cast<int>(j - i);
+            }
+        }
+        return ans;
+    }
 };
