@@ -62,4 +62,36 @@ static const auto InitialOptimization = []() {
     return 0;
 }();
 
-auto RuntimeCheat = atexit([]() { ofstream("display_runtime.txt") << "0"; });
+#include <ranges>
+class Solution {
+    bool check(const string &a, const string &b) {
+        if (a.size() != b.size()) return false;
+        auto d = 0;
+        for (const auto &[i, j] : views::zip(a, b))
+            if (i != j && ++d > 1) return false;
+        return d == 1;
+    }
+public:
+    vector<string> getWordsInLongestSubsequence(vector<string> &words, vector<int> &groups) {
+        const auto n = words.size();
+        vector<int> dp(n, 1);
+        vector<size_t> prev(n, n);
+        vector<string> ans;
+        auto max_id = 0uz;
+        for (auto i = 1; i < n; ++i) {
+            for (auto j = 0; j < i; ++j) {
+                if (check(words[i], words[j]) && dp[j] + 1 > dp[i] && groups[i] != groups[j]) {
+                    dp[i] = dp[j] + 1;
+                    prev[i] = j;
+                }
+            }
+            if (dp[i] > dp[max_id]) max_id = i;
+        }
+        while (max_id != n) {
+            ans.push_back(words[max_id]);
+            max_id = prev[max_id];
+        }
+        reverse(ans.begin(), ans.end());
+        return ans;
+    }
+};
