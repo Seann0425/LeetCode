@@ -4,24 +4,18 @@ using namespace std;
 struct ListNode {
     int val;
     ListNode *next;
-    ListNode() : val(0), next(nullptr) {
-    }
-    ListNode(int x) : val(x), next(nullptr) {
-    }
-    ListNode(int x, ListNode *next) : val(x), next(next) {
-    }
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
 };
 
 struct TreeNode {
     int val;
     TreeNode *left;
     TreeNode *right;
-    TreeNode() : val(0), left(nullptr), right(nullptr) {
-    }
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {
-    }
-    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {
-    }
+    TreeNode() : val(0), left(nullptr), right(nullptr) {}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
 class Node {
@@ -55,13 +49,13 @@ public:
 class Solution {
 public:
     void sortColors(vector<int> &nums) {
-        const auto N = nums.size();
-        size_t zero_bound = 0, two_bound = N - 1;
+        const auto n = nums.size();
+        auto zero_bound = 0uz, two_bound = n - 1;
         for (auto &i : nums)
             if (i == 0) swap(i, nums[zero_bound++]);
-        while (two_bound < N && zero_bound <= two_bound) {
+        while (two_bound < n && zero_bound <= two_bound) {
             if (nums[zero_bound] == 2) swap(nums[zero_bound], nums[two_bound--]);
-            else zero_bound++;
+            else ++zero_bound;
         }
     }
 };
