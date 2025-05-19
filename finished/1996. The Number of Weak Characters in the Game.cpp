@@ -36,6 +36,10 @@ public:
     }
 };
 
+/*the solution should start from below*/
+
+#pragma GCC optimize("O3", "unroll-loops")
+#include <ranges>
 #ifndef DEBUG
 #define DEBUG
 template <typename T>
@@ -50,8 +54,6 @@ void debug(const vector<T> &v) {
 }
 void debug(const string &s) { cout << '"' << s << '"' << endl; }
 #endif
-#pragma GCC optimize("O3", "unroll-loops")
-#include <ranges>
 
 static const auto InitialOptimization = []() {
     ios_base::sync_with_stdio(false);
@@ -61,3 +63,23 @@ static const auto InitialOptimization = []() {
 }();
 
 auto RuntimeCheat = atexit([]() { ofstream("display_runtime.txt") << "0"; });
+
+#include <ranges>
+class Solution {
+public:
+    int numberOfWeakCharacters(vector<vector<int>> &properties) {
+        sort(properties.begin(), properties.end(),
+             [](const auto &a, const auto &b) { return a[0] == b[0] ? a[1] < b[1] : a[0] < b[0]; });
+        auto max_def = 0, ans = 0;
+        auto cur_atk = properties.back()[0], next_def = 0;
+        for (const auto &p : views::reverse(properties)) {
+            if (p[0] != cur_atk) {
+                cur_atk = p[0];
+                max_def = next_def;
+            }
+            if (p[1] < max_def) ++ans;
+            next_def = max(next_def, p[1]);
+        }
+        return ans;
+    }
+};
