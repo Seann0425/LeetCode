@@ -59,5 +59,7 @@ public:
         vector<int> ans;
         ans.reserve(k);
         for (const auto &i : index | views::take(k))
+            ans.push_back(nums[i]);
+        return ans;
     }
 };
