@@ -44,37 +44,20 @@ public:
 
 /*the solution should start from below*/
 
+#include <ranges>
 class Solution {
-private:
-    class Number {
-    public:
-        int val;
-        int idx;
-        Number(int x, int y) {
-            val = x;
-            idx = y;
-        }
-    };
-
-    struct cmp {
-        bool operator()(const Number &a, const Number &b) {
-            return a.val < b.val;
-        }
-    };
 public:
-    vector<int> maxSubsequence(vector<int> &nums, int k) {
-        priority_queue<Number, vector<Number>, cmp> firstK;
-        for (int i = 0; i < nums.size(); i++)
-            firstK.push(Number(nums[i], i));
-        vector<Number> process;
-        for (int i = 0; i < k; i++) {
-            process.push_back(firstK.top());
-            firstK.pop();
-        }
-        sort(process.begin(), process.end(), [](const Number &a, const Number &b) { return a.idx < b.idx; });
-        vector<int> ans(k);
-        for (int i = 0; i < k; i++)
-            ans[i] = process[i].val;
-        return ans;
+    vector<int> maxSubsequence(vector<int> &nums, size_t k) {
+        const auto n = nums.size();
+        vector<size_t> index(n);
+        iota(index.begin(), index.end(), 0uz);
+
+        sort(index.begin(), index.end(), [&](const auto &a, const auto &b) {
+            return nums[a] > nums[b];
+        });
+        sort(index.begin(), index.begin() + k);
+        vector<int> ans;
+        ans.reserve(k);
+        for (const auto &i : index | views::take(k))
     }
 };
