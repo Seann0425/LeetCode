@@ -47,24 +47,13 @@ public:
 class Solution {
 public:
     int findLHS(vector<int> &nums) {
-        sort(nums.begin(), nums.end());
-        int curN = nums[0], preCount = 0, curCount = 0;
-        int mx = 0;
-        int n = nums.size();
-        for (int i = 0; i < n; i++) {
-            if (nums[i] != curN) {
-                if (preCount) mx = max(mx, preCount + curCount);
-                if (nums[i] - curN == 1) {
-                    preCount = curCount;
-                    curCount = 0;
-                } else {
-                    preCount = curCount = 0;
-                }
-                curN = nums[i];
-            }
-            curCount++;
-        }
-        if (preCount) mx = max(mx, preCount + curCount);
-        return mx;
+        unordered_map<int, int> freq;
+        for (const auto &i : nums) ++freq[i];
+
+        auto ans = 0;
+        for (const auto &[i, cnt] : freq)
+            if (freq.contains(i + 1)) ans = max(ans, freq[i + 1] + cnt);
+
+        return ans;
     }
 };
