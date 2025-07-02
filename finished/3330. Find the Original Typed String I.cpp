@@ -46,13 +46,14 @@ public:
 //     return 0;
 // }();
 
+#include <ranges>
 class Solution {
 public:
     int possibleStringCount(string word) {
         auto ans = 1;
-        const auto n = word.size();
-        for (size_t i = 1; i < n; i++)
-            if (word[i] == word[i - 1]) ans++;
+        for (const auto &i :
+             word | views::adjacent_transform<2>([](auto... p) { return (... == p); }))
+            ans += i;
         return ans;
     }
 };
