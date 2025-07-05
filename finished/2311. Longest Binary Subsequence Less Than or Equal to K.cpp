@@ -36,7 +36,6 @@ public:
     }
 };
 
-#include <ranges>
 #ifndef DEBUG
 #define DEBUG
 template <typename T>
@@ -52,6 +51,7 @@ void debug(const vector<T> &v) {
 void debug(const string &s) { cout << '"' << s << '"' << endl; }
 #endif
 #pragma GCC optimize("O3", "unroll-loops")
+#include <ranges>
 
 static const auto InitialOptimization = []() {
     ios_base::sync_with_stdio(false);
@@ -61,3 +61,20 @@ static const auto InitialOptimization = []() {
 }();
 
 auto RuntimeCheat = atexit([]() { ofstream("display_runtime.txt") << "0"; });
+
+class Solution {
+public:
+    int longestSubsequence(string s, int k) {
+        const auto n = s.size();
+        vector<int> len(n + 1, numeric_limits<int>::max()); // len[i] is the smallest number of
+                                                            // length i in binary format
+        len[0] = 0;
+        for (auto i = 0uz; i < n; ++i) {
+            auto b = s[i] - '0';
+            for (auto j = i + 1; j; --j) len[j] = min({len[j], 2 * len[j - 1] + b, k + 1});
+        }
+        for (auto i = n; i; --i)
+            if (len[i] <= k) return static_cast<int>(i);
+        return 0;
+    }
+};
