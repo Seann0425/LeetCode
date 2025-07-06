@@ -63,6 +63,38 @@ static const auto InitialOptimization = []() {
 auto RuntimeCheat = atexit([]() { ofstream("display_runtime.txt") << "0"; });
 
 class Solution {
+    bool valid(const string &s, const string &t, int k) {
+        auto match = 0;
+        const auto m = s.size(), n = t.size();
+        for (auto i = 0uz, j = 0uz; j < n; ++j) {
+            if (s[i] != t[j]) continue;
+            if (++i != m) continue;
+            i = 0;
+            if (++match == k) return true;
+        }
+        return false;
+    }
 public:
-    string longestSubsequenceRepeatedK(string s, int k) {}
+    string longestSubsequenceRepeatedK(string s, int k) {
+        array<int, 26> freq{};
+        for (const auto &c : s) ++freq[c - 'a'];
+        vector<char> alphabet;
+        queue<string> candidates;
+        for (auto i = 25uz; i < 26uz; --i)
+            if (freq[i] >= k) {
+                alphabet.push_back('a' + i);
+                candidates.push(string(1, 'a' + i));
+            }
+        string ans{};
+        while (!candidates.empty()) {
+            auto cur = candidates.front();
+            candidates.pop();
+            if (cur.size() > ans.size()) ans = cur; // lexicographically larger
+            for (const auto &c : alphabet) {
+                auto next = cur + c;
+                if (valid(next, s, k)) candidates.push(next);
+            }
+        }
+        return ans;
+    }
 };
