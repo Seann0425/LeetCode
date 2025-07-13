@@ -58,7 +58,7 @@ public:
             if (pq.empty()) cur = events[i][0];
             while (i < n and events[i][0] <= cur) pq.push(events[i++][1]);
             pq.pop();
-            ans++, cur++;
+            ++ans, ++cur;
             while (!pq.empty() and pq.top() < cur) pq.pop();
         }
         return ans;
